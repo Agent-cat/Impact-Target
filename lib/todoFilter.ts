@@ -8,6 +8,7 @@ export function filterTodos(todos: Todo[], filter: FilterType): Todo[] {
       return todos.filter((t) => !t.completed);
     case "completed":
       console.log("Completed todos:", todos.filter((t) => t.completed));
+
       return todos.filter((t) => t.completed);
     case "all":
     default:
