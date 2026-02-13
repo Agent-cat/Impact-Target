@@ -26,35 +26,30 @@ jobs:
 
       - name: Analyze Impacted Tests
         id: analyze
+        env:
+          # This should be the URL of your dedicated Impact Analyzer Backend app
+          BACKEND_URL: ${{ secrets.IMPACT_BACKEND_URL }}
         run: |
-          echo "Analyzing impacted tests locally..."
+          echo "Requesting analysis for PR #${{ github.event.pull_request.number }}..."
 
-          BASE_SHA="${{ github.event.pull_request.base.sha }}"
-          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-
-          RESPONSE=$(node scripts/analyze_impact.js "$BASE_SHA" "$HEAD_SHA")
+          RESPONSE=$(curl -s -X POST "${BACKEND_URL}/api/analyze" \
+            -H "Content-Type: application/json" \
+            -d "{\"owner\": \"${{ github.repository_owner }}\", \"repo\": \"${{ github.event.repository.name }}\", \"pr\": ${{ github.event.pull_request.number }}}")
 
           # Extract test files
           TESTS=$(echo $RESPONSE | jq -r '.impactedTests | join(" ")')
           COUNT=$(echo $RESPONSE | jq '.impactedTests | length')
 
-          # Check if TESTS is empty or valid
-          if [ -z "$TESTS" ] || [ "$TESTS" = "null" ]; then
-             COUNT=0
-             TESTS=""
-          fi
-
           echo "impacted_tests=$TESTS" >> $GITHUB_OUTPUT
           echo "count=$COUNT" >> $GITHUB_OUTPUT
-          echo "Found $COUNT tests to run: $TESTS"
+          echo "Found $COUNT tests to run."
 
       - name: Run Impacted Tests
         id: run_tests
         if: steps.analyze.outputs.count != '0'
         run: |
           # Execute only the impacted test files
-          echo "Running command: npx jest ${{ steps.analyze.outputs.impacted_tests }}"
-          npx jest ${{ steps.analyze.outputs.impacted_tests }} --json --outputFile=test-results.json || EXIT_CODE=$?
+          npm test -- ${{ steps.analyze.outputs.impacted_tests }} --json --outputFile=test-results.json || EXIT_CODE=$?
 
           TESTS_RUN=$(jq '.numTotalTests' test-results.json || echo 0)
           FAILED=$(jq '.numFailedTests' test-results.json || echo 0)
