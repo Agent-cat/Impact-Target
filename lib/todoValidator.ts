@@ -22,7 +22,7 @@ export function validateTodoText(text: string): { valid: boolean; error?: string
   if (forbiddenWords.some((word) => trimmed.toLowerCase().includes(word))) {
     return {
       valid: false,
-      error: "Todo contains forbiddend content.",
+      error: "Todo contains forbidden content.",
     };
   }
 
