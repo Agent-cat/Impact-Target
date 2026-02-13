@@ -26,17 +26,14 @@ jobs:
 
       - name: Analyze Impacted Tests
         id: analyze
-        env:
-          # This should be the URL of your dedicated Impact Analyzer Backend app
-          BACKEND_URL: ${{ secrets.IMPACT_BACKEND_URL }}
         run: |
-          echo "Requesting analysis for PR #${{ github.event.pull_request.number }}..."
+          echo "Analyzing impacted tests locally..."
 
-          RESPONSE=$(curl -s -X POST "${BACKEND_URL}/api/analyze" \
-            -H "Content-Type: application/json" \
-            -d "{\"owner\": \"${{ github.repository_owner }}\", \"repo\": \"${{ github.event.repository.name }}\", \"pr\": ${{ github.event.pull_request.number }}}")
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
 
-          # Extract test files
+          RESPONSE=$(node scripts/analyze_impact.js "$BASE_SHA" "$HEAD_SHA")
+
           # Extract test files
           TESTS=$(echo $RESPONSE | jq -r '.impactedTests | join(" ")')
           COUNT=$(echo $RESPONSE | jq '.impactedTests | length')
