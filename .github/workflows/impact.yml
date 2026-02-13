@@ -37,19 +37,27 @@ jobs:
             -d "{\"owner\": \"${{ github.repository_owner }}\", \"repo\": \"${{ github.event.repository.name }}\", \"pr\": ${{ github.event.pull_request.number }}}")
 
           # Extract test files
+          # Extract test files
           TESTS=$(echo $RESPONSE | jq -r '.impactedTests | join(" ")')
           COUNT=$(echo $RESPONSE | jq '.impactedTests | length')
 
+          # Check if TESTS is empty or valid
+          if [ -z "$TESTS" ] || [ "$TESTS" = "null" ]; then
+             COUNT=0
+             TESTS=""
+          fi
+
           echo "impacted_tests=$TESTS" >> $GITHUB_OUTPUT
           echo "count=$COUNT" >> $GITHUB_OUTPUT
-          echo "Found $COUNT tests to run."
+          echo "Found $COUNT tests to run: $TESTS"
 
       - name: Run Impacted Tests
         id: run_tests
         if: steps.analyze.outputs.count != '0'
         run: |
           # Execute only the impacted test files
-          npm test -- ${{ steps.analyze.outputs.impacted_tests }} --json --outputFile=test-results.json || EXIT_CODE=$?
+          echo "Running command: npx jest ${{ steps.analyze.outputs.impacted_tests }}"
+          npx jest ${{ steps.analyze.outputs.impacted_tests }} --json --outputFile=test-results.json || EXIT_CODE=$?
 
           TESTS_RUN=$(jq '.numTotalTests' test-results.json || echo 0)
           FAILED=$(jq '.numFailedTests' test-results.json || echo 0)
