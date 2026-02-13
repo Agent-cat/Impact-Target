@@ -66,14 +66,14 @@ jobs:
         env:
           BACKEND_URL: ${{ secrets.IMPACT_BACKEND_URL }}
         run: |
-          curl -s -X POST "${BACKEND_URL}/api/result" \
+          curl -s -X POST "${BACKEND_URL}/api/report" \
             -H "Content-Type: application/json" \
             -d "{
               \"owner\": \"${{ github.repository_owner }}\",
               \"repo\": \"${{ github.event.repository.name }}\",
               \"pr\": ${{ github.event.pull_request.number }},
               \"testsRun\": ${{ steps.run_tests.outputs.tests_run || 0 }},
-              \"failed\": ${{ steps.run_tests.outputs.failed || 0 }}
+              \"testsFailed\": ${{ steps.run_tests.outputs.failed || 0 }}
             }"
 
           echo "Results reported to dashboard."
