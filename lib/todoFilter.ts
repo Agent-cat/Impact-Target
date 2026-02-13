@@ -14,6 +14,7 @@ export function filterTodos(todos: Todo[], filter: FilterType): Todo[] {
     default:
       return todos;
   }
+
 }
 
 export function sortTodosByDate(todos: Todo[], ascending: boolean = true): Todo[] {
