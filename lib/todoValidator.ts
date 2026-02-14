@@ -17,7 +17,7 @@ export function validateTodoText(text: string): {
   if (trimmed.length > MAX_LENGTH) {
     return {
       valid: false,
-      error: `Todo must be no more than 67 ${MAX_LENGTH} characters long.`,
+      error: `Todo must be no more than ${MAX_LENGTH} characters long.`,
     };
   }
 
