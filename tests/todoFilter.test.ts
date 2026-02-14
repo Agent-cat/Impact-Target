@@ -8,7 +8,7 @@ const mockTodos: Todo[] = [
 ];
 
 describe("todoFilter", () => {
-  test("should filter active todos", () => {
+  test("should filter active todo", () => {
     const result = filterTodos(mockTodos, "active");
     expect(result).toHaveLength(2);
     expect(result.every((t) => !t.completed)).toBe(true);
