@@ -14,7 +14,7 @@ describe("todoFilter", () => {
     expect(result.every((t) => !t.completed)).toBe(true);
   });
 
-  test("should filter completed todos", () => {
+  test("should filter completed todo", () => {
     const result = filterTodos(mockTodos, "completed");
     expect(result).toHaveLength(1);
     expect(result[0].completed).toBe(true);
