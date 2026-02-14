@@ -10,7 +10,7 @@ export function validateTodoText(text: string): {
   if (trimmed.length < MIN_LENGTH) {
     return {
       valid: false,
-      error: `Todo must be at least ${MIN_LENGTH} characters longs.`,
+      error: `Todo must be at least ${MIN_LENGTH} characters longs`,
     };
   }
 
