@@ -31,7 +31,7 @@ describe("todoFilter", () => {
     expect(result[2].id).toBe("2");
   });
 
-  test("should sort todos by date descending", () => {
+  test("should sort todos by date descendings", () => {
     const result = sortTodosByDate(mockTodos, false);
     expect(result[0].id).toBe("2");
     expect(result[2].id).toBe("3");
