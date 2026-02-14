@@ -18,8 +18,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install Dependencies
         run: npm install
@@ -27,7 +27,6 @@ jobs:
       - name: Analyze Impacted Tests
         id: analyze
         env:
-          # This should be the URL of your dedicated Impact Analyzer Backend app
           BACKEND_URL: ${{ secrets.IMPACT_BACKEND_URL }}
         run: |
           echo "Requesting analysis for PR #${{ github.event.pull_request.number }}..."
