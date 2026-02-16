@@ -25,7 +25,7 @@ export function validateTodoText(text: string): {
   if (forbiddenWords.some((word) => trimmed.toLowerCase().includes(word))) {
     return {
       valid: false,
-      error: "Todo contains forbidden content",
+      error: "Todo contains forbidden content  cak",
     };
   }
 
