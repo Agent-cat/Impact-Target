@@ -10,7 +10,7 @@ export function validateTodoText(text: string): {
   if (trimmed.length < MIN_LENGTH) {
     return {
       valid: false,
-      error: `Todo must be at least ${MIN_LENGTH} characters longs.`,
+      error: `Todo must be at least ${MIN_LENGTH} characters long.`,
     };
   }
 
@@ -25,7 +25,7 @@ export function validateTodoText(text: string): {
   if (forbiddenWords.some((word) => trimmed.toLowerCase().includes(word))) {
     return {
       valid: false,
-      error: "Todo contains forbidden content  cak",
+      error: "Todo contains forbidden content",
     };
   }
 
