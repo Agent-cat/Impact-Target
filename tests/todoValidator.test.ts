@@ -12,13 +12,13 @@ describe("todoValidator", () => {
     expect(result.error).toContain("at least 3 characters");
   });
 
-  test("should reject long text", () => {
+  test("should reject  long text", () => {
     const result = validateTodoText("a".repeat(51));
     expect(result.valid).toBe(false);
     expect(result.error).toContain("no more than 50 characters");
   });
 
-  test("should reject forbidden words", () => {
+  test("should  reject forbidden words", () => {
     const result = validateTodoText("This is spam");
     expect(result.valid).toBe(false);
     expect(result.error).toContain("forbidden");

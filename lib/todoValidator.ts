@@ -1,7 +1,10 @@
 export const MIN_LENGTH = 3;
 export const MAX_LENGTH = 50;
 
-export function validateTodoText(text: string): { valid: boolean; error?: string } {
+export function validateTodoText(text: string): {
+  valid: boolean;
+  error?: string;
+} {
   const trimmed = text.trim();
 
   if (trimmed.length < MIN_LENGTH) {
@@ -14,7 +17,7 @@ export function validateTodoText(text: string): { valid: boolean; error?: string
   if (trimmed.length > MAX_LENGTH) {
     return {
       valid: false,
-      error: `Todo must be no more than ${MAX_LENGTH} characters long.`,
+      error: `Todo must be no more than ${MAX_LENGTH} characters longss.`,
     };
   }
 
@@ -22,7 +25,7 @@ export function validateTodoText(text: string): { valid: boolean; error?: string
   if (forbiddenWords.some((word) => trimmed.toLowerCase().includes(word))) {
     return {
       valid: false,
-      error: "Todo contains forbidden content.",
+      error: "Todo contains forbidden content",
     };
   }
 

@@ -8,13 +8,13 @@ const mockTodos: Todo[] = [
 ];
 
 describe("todoFilter", () => {
-  test("should filter active todos", () => {
+  test("should filter active todo", () => {
     const result = filterTodos(mockTodos, "active");
     expect(result).toHaveLength(2);
     expect(result.every((t) => !t.completed)).toBe(true);
   });
 
-  test("should filter completed todos", () => {
+  test("should filter completed todo", () => {
     const result = filterTodos(mockTodos, "completed");
     expect(result).toHaveLength(1);
     expect(result[0].completed).toBe(true);
@@ -25,13 +25,13 @@ describe("todoFilter", () => {
     expect(result).toHaveLength(3);
   });
 
-  test("should sort todos by date ascending", () => {
+  test("should sort todos by date ascendings", () => {
     const result = sortTodosByDate(mockTodos, true);
     expect(result[0].id).toBe("3");
     expect(result[2].id).toBe("2");
   });
 
-  test("should sort todos by date descending", () => {
+  test("should sort todos by date descendings", () => {
     const result = sortTodosByDate(mockTodos, false);
     expect(result[0].id).toBe("2");
     expect(result[2].id).toBe("3");
