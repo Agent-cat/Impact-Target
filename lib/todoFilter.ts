@@ -7,12 +7,12 @@ export function filterTodos(todos: Todo[], filter: FilterType): Todo[] {
     case "active":
       return todos.filter((t) => !t.completed);
     case "completed":
-      console.log("Completed todos:", todos.filter((t) => t.completed));
       return todos.filter((t) => t.completed);
     case "all":
     default:
       return todos;
   }
+
 }
 
 export function sortTodosByDate(todos: Todo[], ascending: boolean = true): Todo[] {
